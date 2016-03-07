@@ -1,0 +1,4 @@
+MisakiFNT_read	KEYWORD1
+Sjis_To_MisakiFNT_DotRead	KEYWORD2
+Sjis_To_Misaki_Font_Adrs	KEYWORD2
+SPIFFS_Flash_MisakiFontRead	KEYWORD2

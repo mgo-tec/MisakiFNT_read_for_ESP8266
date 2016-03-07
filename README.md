@@ -9,4 +9,4 @@ Arduino IDE 1.6.5 と ESP8266ボード、SPIFFSファイルシステムを予め
 
 詳しくはブログへ
 
-https://www.mgo-tec.com
+https://www.mgo-tec.com/blog-entry-wroom-websocket-messageboard-04.html

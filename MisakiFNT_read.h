@@ -1,6 +1,6 @@
 /*
   MisakiFNT_read.h - for ESP-WROOM-02 ( esp8266 )
-  Beta version 1.0
+  Beta version 1.1
   This is the Arduino library for reading Misaki font. (For ESP8266) 
   
 The MIT License (MIT)
@@ -40,6 +40,7 @@ public:
   void Sjis_To_Misaki_Font_Adrs(const char* _font_file, uint8_t __jisH, uint8_t __jisL, uint8_t* __buf);
   void SPIFFS_Flash_MisakiFontRead(const char* _font_file, uint16_t __addrs, uint8_t* __buf);
 private:
+  boolean _Hankaku_three = false;
 };
 
 #endif

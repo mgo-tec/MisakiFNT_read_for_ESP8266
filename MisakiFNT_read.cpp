@@ -1,6 +1,6 @@
 /*
   MisakiFNT_read.cpp - for ESP-WROOM-02 ( esp8266 )
-  Beta version 1.0
+  Beta version 1.1
   This is the Arduino library for reading Misaki font. (For ESP8266) 
   
 The MIT License (MIT)
@@ -37,33 +37,35 @@ uint8_t MisakiFNT_read::Sjis_To_MisakiFNT_DotRead(const char* _FNT_file_8x8, con
 {
   uint16_t _fnt_adrs_half;
   uint8_t __cp;
+  uint8_t __dummy_buf1[8] = {0,0,0,0,0,0,0,0};
+  uint8_t __dummy_buf2[8] = {0,0,0,0,0,0,0,0};
+  uint8_t __dummy_buf3[8] = {0,0,0,0,0,0,0,0};
+  uint8_t __i;
   
   if((__SjisH>=0x20 && __SjisH<=0x7F) || (__SjisH>=0xA1 && __SjisH<=0xDF)){
   
     _fnt_adrs_half = 0x110 + (__SjisH - 0x20)*8;
-    MisakiFNT_read::SPIFFS_Flash_MisakiFontRead(_FNT_file_4x8, _fnt_adrs_half, __buf);
+    MisakiFNT_read::SPIFFS_Flash_MisakiFontRead(_FNT_file_4x8, _fnt_adrs_half, __dummy_buf1);
     
     __cp = 1;
     
     if((__SjisL>=0x20 && __SjisL<=0x7F) || (__SjisL>=0xA1 && __SjisL<=0xDF)){
       _fnt_adrs_half = 0x110 + (__SjisL - 0x20)*8;
-      uint8_t __dummy_buf[8];
-      uint8_t i;
       
-      MisakiFNT_read::SPIFFS_Flash_MisakiFontRead(_FNT_file_4x8, _fnt_adrs_half, __dummy_buf);
+      MisakiFNT_read::SPIFFS_Flash_MisakiFontRead(_FNT_file_4x8, _fnt_adrs_half, __dummy_buf2);
       switch(__Angle){
         case 0:
           switch(__Direction){
             default:
-              for(i=0; i<8; i++){
-                __dummy_buf[i] = __dummy_buf[i]>>4;
-                __buf[i] = __buf[i] | __dummy_buf[i];
+              for(__i=0; __i<8; __i++){
+                __dummy_buf2[__i] = __dummy_buf2[__i]>>4;
+                __buf[__i] = __dummy_buf1[__i] | __dummy_buf2[__i];
               }
               break;
             case 1:
-              for(i=0; i<8; i++){
-                __buf[i] = __buf[i]>>4;
-                __buf[i] = __dummy_buf[i] | __buf[i];
+              for(__i=0; __i<8; __i++){
+                __dummy_buf1[__i] = __dummy_buf1[__i]>>4;
+                __buf[__i] = __dummy_buf2[__i] | __dummy_buf1[__i];
               }
               break;
           }
@@ -71,15 +73,15 @@ uint8_t MisakiFNT_read::Sjis_To_MisakiFNT_DotRead(const char* _FNT_file_8x8, con
         case 90:
           switch(__Direction){
             default:
-              for(i=0; i<8; i++){
-                __dummy_buf[i] = __dummy_buf[i]>>4;
-                __buf[i] = __buf[i] | __dummy_buf[i];
+              for(__i=0; __i<8; __i++){
+                __dummy_buf2[__i] = __dummy_buf2[__i]>>4;
+                __buf[__i] = __dummy_buf1[__i] | __dummy_buf2[__i];
               }
               break;
             case 2:
-              for(i=0; i<8; i++){
-                __buf[i] = __buf[i]>>4;
-                __buf[i] = __dummy_buf[i] | __buf[i];
+              for(__i=0; __i<8; __i++){
+                __dummy_buf1[__i] = __dummy_buf1[__i]>>4;
+                __buf[__i] = __dummy_buf2[__i] | __dummy_buf1[__i];
               }
               break;
           }
@@ -87,15 +89,15 @@ uint8_t MisakiFNT_read::Sjis_To_MisakiFNT_DotRead(const char* _FNT_file_8x8, con
         case -90:
           switch(__Direction){
             default:
-              for(i=0; i<8; i++){
-                __dummy_buf[i] = __dummy_buf[i]>>4;
-                __buf[i] = __buf[i] | __dummy_buf[i];
+              for(__i=0; __i<8; __i++){
+                __dummy_buf2[__i] = __dummy_buf2[__i]>>4;
+                __buf[__i] = __dummy_buf1[__i] | __dummy_buf2[__i];
               }
               break;
             case 3:
-              for(i=0; i<8; i++){
-                __buf[i] = __buf[i]>>4;
-                __buf[i] = __dummy_buf[i] | __buf[i];
+              for(__i=0; __i<8; __i++){
+                __dummy_buf1[__i] = __dummy_buf1[__i]>>4;
+                __buf[__i] = __dummy_buf2[__i] | __dummy_buf1[__i];
               }
               break;
           }
@@ -103,31 +105,46 @@ uint8_t MisakiFNT_read::Sjis_To_MisakiFNT_DotRead(const char* _FNT_file_8x8, con
         case 180:
           switch(__Direction){
             default:
-              for(i=0; i<8; i++){
-                __dummy_buf[i] = __dummy_buf[i]>>4;
-                __buf[i] = __buf[i] | __dummy_buf[i];
+              for(__i=0; __i<8; __i++){
+                __dummy_buf2[__i] = __dummy_buf2[__i]>>4;
+                __buf[__i] = __dummy_buf1[__i] | __dummy_buf2[__i];
               }
               break;
             case 0:
-              for(i=0; i<8; i++){
-                __buf[i] = __buf[i]>>4;
-                __buf[i] = __dummy_buf[i] | __buf[i];
+              for(__i=0; __i<8; __i++){
+                __dummy_buf1[__i] = __dummy_buf1[__i]>>4;
+                __buf[__i] = __dummy_buf2[__i] | __dummy_buf1[__i];
               }
               break;
           }
           break;
       }
       __cp = 2;
+      _Hankaku_three = true;
+    }else{
+      switch(_Hankaku_three){
+        case false:
+          for(__i=0; __i<8; __i++){
+            __buf[__i] = __dummy_buf1[__i]>>3;
+          }
+          break;
+        case true:
+          for(__i=0; __i<8; __i++){
+            __buf[__i] = __dummy_buf1[__i];
+          }
+          break;
+      }
+      __cp = 1;
     }
   }else{
-    uint8_t __dummy_buf2[8];
-    MisakiFNT_read::Sjis_To_Misaki_Font_Adrs(_FNT_file_8x8, __SjisH, __SjisL, __dummy_buf2);
-    for( byte _col = 0; _col < 8; _col++ ) {
-      for( byte _row = 0; _row < 8; _row++ ) {
-        bitWrite( __buf[7-_row], 7-_col , bitRead( __dummy_buf2[_col], 7-_row ) );
+    MisakiFNT_read::Sjis_To_Misaki_Font_Adrs(_FNT_file_8x8, __SjisH, __SjisL, __dummy_buf3);
+    for( uint8_t _col = 0; _col < 8; _col++ ) {
+      for( uint8_t _row = 0; _row < 8; _row++ ) {
+        bitWrite( __buf[7-_row], 7-_col , bitRead( __dummy_buf3[_col], 7-_row ) );
       }
     }
     __cp = 2;
+    _Hankaku_three = false;
   }
   return __cp;
 }
@@ -186,8 +203,8 @@ void MisakiFNT_read::SPIFFS_Flash_MisakiFontRead(const char* _font_file, uint16_
   File __f1 = SPIFFS.open(_font_file, "r"); //美咲フォントファイル
   if(__f1){
     __f1.seek(__addrs,SeekSet);
-    for (byte i=0; i<8; i++){
-      __buf[i] = __f1.read(); //readBytes はSPIFFSファイルシステムver0.2.0ではchar型となるのでここでは使わない
+    for (uint8_t __i=0; __i<8; __i++){
+      __buf[__i] = __f1.read(); //readBytes はSPIFFSファイルシステムver0.2.0ではchar型となるのでここでは使わない
     }
     __f1.close();
   }else{
